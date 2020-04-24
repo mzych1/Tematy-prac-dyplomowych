@@ -1,0 +1,458 @@
+SQL> 
+SQL> --testowanie wybranych ograniczen (insert, update, delete)
+SQL> 
+SQL> --zaklady
+SQL> INSERT INTO zaklady
+  2  VALUES (1, 'ZAK£AD AUTOMATYKI', 'Badania dotycz¹ sterowania przemys³owego ze szczególnym uwzglêdnieniem algorytmów predykcyjnych, sterowania rozmytego, optymalizacji wielowarstwowej i sterowania pod nadzorem.');
+
+Error starting at line : 6 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO zaklady
+VALUES (1, 'ZAK£AD AUTOMATYKI', 'Badania dotycz¹ sterowania przemys³owego ze szczególnym uwzglêdnieniem algorytmów predykcyjnych, sterowania rozmytego, optymalizacji wielowarstwowej i sterowania pod nadzorem.')
+Error report -
+ORA-00001: naruszono wiêzy unikatowe (BD2A42.ZAKLADY_PK)
+
+SQL> 
+SQL> INSERT INTO zaklady
+  2  VALUES (-1, 'ZAK£AD AUTOMATYKI', 'Badania dotycz¹ sterowania przemys³owego ze szczególnym uwzglêdnieniem algorytmów predykcyjnych, sterowania rozmytego, optymalizacji wielowarstwowej i sterowania pod nadzorem.');
+
+Error starting at line : 9 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO zaklady
+VALUES (-1, 'ZAK£AD AUTOMATYKI', 'Badania dotycz¹ sterowania przemys³owego ze szczególnym uwzglêdnieniem algorytmów predykcyjnych, sterowania rozmytego, optymalizacji wielowarstwowej i sterowania pod nadzorem.')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.DODATNIE_ID_ZAKLADU)
+
+SQL> 
+SQL> INSERT INTO zaklady (id_zakladu, nazwa)
+  2  VALUES (10, 'Zak³ad informatyki stosowanej');
+
+Error starting at line : 12 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO zaklady (id_zakladu, nazwa)
+VALUES (10, 'Zak³ad informatyki stosowanej')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.NAZWA_ZAKLADU_WIELKIE_LITERY)
+
+SQL> 
+SQL> INSERT INTO zaklady (nazwa)
+  2  VALUES ('ZAK£AD INFORMATYKI STOSOWANEJ');
+
+1 row inserted.
+
+SQL> 
+SQL> UPDATE zaklady
+  2  SET id_zakladu = 9
+  3  WHERE id_zakladu = 1;
+
+Error starting at line : 18 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+UPDATE zaklady
+SET id_zakladu = 9
+WHERE id_zakladu = 1
+Error report -
+ORA-20225: Nie mozna zmienic id_zakladu
+ORA-06512: przy "BD2A42.NIEZMIENNE_ID_ZAKLADU", linia 2
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.NIEZMIENNE_ID_ZAKLADU'
+
+SQL> 
+SQL> DELETE FROM zaklady WHERE id_zakladu = 2;
+
+Error starting at line : 22 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+DELETE FROM zaklady WHERE id_zakladu = 2
+Error report -
+ORA-02292: naruszono wiêzy spójnoœci (BD2A42.OSOBY_ZAKLADY_FK) - znaleziono rekord podrzêdny
+
+SQL> 
+SQL> --osoby
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+  2  VALUES (1, 'MAJCHRZAK', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T');
+
+Error starting at line : 25 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+VALUES (1, 'MAJCHRZAK', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T')
+Error report -
+ORA-00001: naruszono wiêzy unikatowe (BD2A42.OSOBY_PK)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+  2  VALUES (-1, 'MAJCHRZAK', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T');
+
+Error starting at line : 28 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+VALUES (-1, 'MAJCHRZAK', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.DODATNIE_ID_OSOBY)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+  2  VALUES (20, 'Kowal', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T');
+
+Error starting at line : 31 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+VALUES (20, 'Kowal', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.NAZWISKO_WIELKIE_LITERY)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+  2  VALUES (20, 'KOWAL', 'Jan', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T');
+
+Error starting at line : 34 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+VALUES (20, 'KOWAL', 'Jan', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'T')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.IMIE_WIELKIE_LITERY)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'A', 'T');
+
+Error starting at line : 37 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'A', 'T')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.WARTOSCI_CZY_STUDENT)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'A');
+
+Error starting at line : 40 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, id_zakladu_zatrudniajacego, czy_student, czy_pracownik)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 1, 'N', 'A')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.WARTOSCI_CZY_PRACOWNIK)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, czy_student, czy_pracownik, nr_albumu_studenta)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 'N', 'T', 294455);
+
+Error starting at line : 43 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, czy_student, czy_pracownik, nr_albumu_studenta)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 'N', 'T', 294455)
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.STUDENT_POLA)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, id_zakladu_zatrudniajacego, czy_student, czy_pracownik, nr_albumu_studenta)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 1, 'T', 'N', 294455);
+
+Error starting at line : 46 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, id_zakladu_zatrudniajacego, czy_student, czy_pracownik, nr_albumu_studenta)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 1, 'T', 'N', 294455)
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.PRACOWNIK_POLA)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, czy_student, czy_pracownik, nr_albumu_studenta)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 'T', 'N', 294455);
+
+Error starting at line : 49 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, czy_student, czy_pracownik, nr_albumu_studenta)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 'T', 'N', 294455)
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.PRACOWNIK_POLA)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, czy_student, czy_pracownik)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'T', 'N');
+
+Error starting at line : 52 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, czy_student, czy_pracownik)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'T', 'N')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.STUDENT_POLA)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, czy_student, czy_pracownik, nr_albumu_studenta)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 'T', 'N', 253142);
+
+Error starting at line : 55 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, tytul_naukowy_opiekuna, czy_student, czy_pracownik, nr_albumu_studenta)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'Doktor', 'T', 'N', 253142)
+Error report -
+ORA-00001: naruszono wiêzy unikatowe (BD2A42.NR_ALBUMU_STUDENTA_UN)
+
+SQL> 
+SQL> INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, czy_student, czy_pracownik)
+  2  VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'N', 'N');
+
+Error starting at line : 58 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO osoby (id_osoby, nazwisko, imie, data_urodzenia, czy_student, czy_pracownik)
+VALUES (20, 'KOWAL', 'JAN', TO_DATE('8-lut-1965', 'DD-MON-YYYY'), 'N', 'N')
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.STUDENT_LUB_PRACOWNIK)
+
+SQL> 
+SQL> INSERT INTO osoby (nazwisko, imie, data_urodzenia, czy_student, czy_pracownik, nr_albumu_studenta)
+  2  VALUES ('KOWAL', 'JAN', TO_DATE('8-lut-1995', 'DD-MON-YYYY'), 'T', 'N', '245566');
+
+1 row inserted.
+
+SQL> 
+SQL> UPDATE osoby
+  2  SET id_zakladu_zatrudniajacego = 3
+  3  WHERE id_osoby = 1;
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE osoby
+  2  SET id_osoby = 30
+  3  WHERE id_osoby = 1;
+
+Error starting at line : 68 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+UPDATE osoby
+SET id_osoby = 30
+WHERE id_osoby = 1
+Error report -
+ORA-20225: Nie mozna zmieniac id osoby
+ORA-06512: przy "BD2A42.NIEZMIENNE_ID_OSOBY", linia 2
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.NIEZMIENNE_ID_OSOBY'
+
+SQL> 
+SQL> UPDATE osoby
+  2  SET nr_albumu_studenta = '273111'
+  3  WHERE id_osoby = 12;
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE osoby
+  2  SET nr_albumu_studenta = '999999'
+  3  WHERE id_osoby = 12;
+
+Error starting at line : 76 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+UPDATE osoby
+SET nr_albumu_studenta = '999999'
+WHERE id_osoby = 12
+Error report -
+ORA-20225: Nie mozna zmieniac numeru albumu studenta
+ORA-06512: przy "BD2A42.NIEZMIENNY_NR_ALBUMU", linia 2
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.NIEZMIENNY_NR_ALBUMU'
+
+SQL> 
+SQL> DELETE FROM osoby WHERE id_osoby = 2;
+
+Error starting at line : 80 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+DELETE FROM osoby WHERE id_osoby = 2
+Error report -
+ORA-02292: naruszono wiêzy spójnoœci (BD2A42.TEMATY_OSOBY_FK) - znaleziono rekord podrzêdny
+
+SQL> 
+SQL> DELETE FROM osoby WHERE id_osoby = 8;
+
+1 row deleted.
+
+SQL> 
+SQL> --tematy
+SQL> INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+  2  VALUES (1, 'APLIKACJA DO GENERACJI GRAFÓW', 1);
+
+Error starting at line : 85 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+VALUES (1, 'APLIKACJA DO GENERACJI GRAFÓW', 1)
+Error report -
+ORA-00001: naruszono wiêzy unikatowe (BD2A42.TEMATY_PK)
+
+SQL> 
+SQL> INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+  2  VALUES (-1, 'APLIKACJA DO GENERACJI GRAFÓW', 1);
+
+Error starting at line : 88 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+VALUES (-1, 'APLIKACJA DO GENERACJI GRAFÓW', 1)
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.DODATNI_NR_TEMATU)
+
+SQL> 
+SQL> INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+  2  VALUES (10, 'Aplikacja do generacji grafów', 1);
+
+Error starting at line : 91 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+VALUES (10, 'Aplikacja do generacji grafów', 1)
+Error report -
+ORA-00001: naruszono wiêzy unikatowe (BD2A42.TEMATY_PK)
+
+SQL> 
+SQL> INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+  2  VALUES (20, 'APLIKACJA DO GENERACJI GRAFÓW', 20);
+
+Error starting at line : 94 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+VALUES (20, 'APLIKACJA DO GENERACJI GRAFÓW', 20)
+Error report -
+ORA-01403: nie znaleziono danych
+ORA-06512: przy "BD2A42.DODANIE_TEMATU_UPRAWNIENIA", linia 4
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.DODANIE_TEMATU_UPRAWNIENIA'
+
+SQL> 
+SQL> INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+  2  VALUES (10, 'APLIKACJA DO GENERACJI GRAFÓW', 13);
+
+Error starting at line : 97 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO tematy (nr_tematu, temat, id_opiekuna)
+VALUES (10, 'APLIKACJA DO GENERACJI GRAFÓW', 13)
+Error report -
+ORA-20225: Osoba nie bedaca pracownikiem nie moze dodac tematu
+ORA-06512: przy "BD2A42.DODANIE_TEMATU_UPRAWNIENIA", linia 6
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.DODANIE_TEMATU_UPRAWNIENIA'
+
+SQL> 
+SQL> INSERT INTO tematy (temat, id_opiekuna)
+  2  VALUES ('METODY WYKRYWANIA ZAK£ÓCEÑ W POZYCJONOWANIU GPS', 2);
+
+1 row inserted.
+
+SQL> 
+SQL> UPDATE tematy
+  2  SET id_opiekuna = 2
+  3  WHERE nr_tematu = 1;
+
+Error starting at line : 103 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+UPDATE tematy
+SET id_opiekuna = 2
+WHERE nr_tematu = 1
+Error report -
+ORA-20225: Non Transferable FK constraint  on table Tematy is violated
+ORA-06512: przy "BD2A42.FKNTM_TEMATY", linia 2
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.FKNTM_TEMATY'
+
+SQL> 
+SQL> UPDATE tematy
+  2  SET id_opiekuna = 1
+  3  WHERE nr_tematu = 1;
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE tematy
+  2  SET nr_tematu = 22
+  3  WHERE nr_tematu = 1;
+
+Error starting at line : 111 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+UPDATE tematy
+SET nr_tematu = 22
+WHERE nr_tematu = 1
+Error report -
+ORA-20225: Nie mozna zmienic numeru tematu
+ORA-06512: przy "BD2A42.NIEZMIENNY_NR_TEMATU", linia 2
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.NIEZMIENNY_NR_TEMATU'
+
+SQL> 
+SQL> DELETE FROM tematy WHERE nr_tematu = 2;
+
+Error starting at line : 115 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+DELETE FROM tematy WHERE nr_tematu = 2
+Error report -
+ORA-02292: naruszono wiêzy spójnoœci (BD2A42.PREFERENCJE_TEMATY_FK) - znaleziono rekord podrzêdny
+
+SQL> 
+SQL> --preferencje
+SQL> INSERT INTO preferencje
+  2  VAlUES (1, 1, 7);
+
+Error starting at line : 118 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO preferencje
+VAlUES (1, 1, 7)
+Error report -
+ORA-00001: naruszono wiêzy unikatowe (BD2A42.PREFERENCJE_PK)
+
+SQL> 
+SQL> INSERT INTO preferencje
+  2  VAlUES (1, 4, 7);
+
+Error starting at line : 121 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO preferencje
+VAlUES (1, 4, 7)
+Error report -
+ORA-02290: naruszono wiêzy CHECK (BD2A42.DOPUSZCZALNE_WARTOSCI_WAGI)
+
+SQL> 
+SQL> INSERT INTO preferencje
+  2  VAlUES (20, 2, 14);
+
+Error starting at line : 124 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO preferencje
+VAlUES (20, 2, 14)
+Error report -
+ORA-02291: naruszono wiêzy spójnoœci (BD2A42.PREFERENCJE_TEMATY_FK) - nie znaleziono klucza nadrzêdnego
+
+SQL> 
+SQL> INSERT INTO preferencje
+  2  VAlUES (1, 2, 1);
+
+Error starting at line : 127 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+INSERT INTO preferencje
+VAlUES (1, 2, 1)
+Error report -
+ORA-20225: Osoba nie bedaca studentem nie moze zlozyc preferencji
+ORA-06512: przy "BD2A42.DODANIE_PREF_UPRAWNIENIA", linia 6
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.DODANIE_PREF_UPRAWNIENIA'
+
+SQL> 
+SQL> UPDATE preferencje
+  2  SET id_studenta = 11
+  3  WHERE id_studenta = 11;
+
+2 rows updated.
+
+SQL> 
+SQL> UPDATE preferencje
+  2  SET id_studenta = 14
+  3  WHERE id_studenta = 11;
+
+Error starting at line : 134 File @ D:\pulpit\studia\semestr 5\BD2\projekt\etap3\POLECENIA_DML.SQL
+In command -
+UPDATE preferencje
+SET id_studenta = 14
+WHERE id_studenta = 11
+Error report -
+ORA-20225: Non Transferable FK constraint  on table Preferencje is violated
+ORA-06512: przy "BD2A42.FKNTM_PREFERENCJE", linia 2
+ORA-04088: b³¹d w trakcie wykonywania wyzwalacza 'BD2A42.FKNTM_PREFERENCJE'
+
+SQL> 
+SQL> UPDATE preferencje
+  2  SET nr_wybranego_tematu = 5
+  3  WHERE id_studenta = 10 and nr_wybranego_tematu = 2;
+
+1 row updated.
+
+SQL> 
+SQL> DELETE FROM preferencje WHERE id_studenta = 7 and nr_wybranego_tematu = 4;
+
+1 row deleted.
+
+SQL> 
+SQL> spool off

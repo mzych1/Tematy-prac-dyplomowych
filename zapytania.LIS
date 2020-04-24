@@ -1,0 +1,139 @@
+SQL> 
+SQL> -- opiekunowie wraz z zakladami w ktorych pracuja
+SQL> select osoby.imie, osoby.nazwisko, zaklady.nazwa 
+  2      from osoby 
+  3      join zaklady
+  4      on osoby.id_zakladu_zatrudniajacego = zaklady.id_zakladu;
+
+IMIE                                     NAZWISKO                                 NAZWA                                                       
+---------------------------------------- ---------------------------------------- ------------------------------------------------------------
+JAN                                      MAJCHRZAK                                ZAK£AD IN¯YNIERII OPROGRAMOWANIA                            
+IGOR                                     ZIELIÑSKI                                ZAK£AD IN¯YNIERII OPROGRAMOWANIA                            
+ANNA                                     NOWAK                                    ZAK£AD IN¯YNIERII OPROGRAMOWANIA                            
+MATEUSZ                                  SOSNOWSKI                                ZAK£AD BADAÑ OPERACYJNYCH I SYSTEMOWYCH                     
+JERZY                                    CZAJKA                                   ZAK£AD BADAÑ OPERACYJNYCH I SYSTEMOWYCH                     
+WERONIKA                                 MICHALAK                                 ZAK£AD STEROWANIA SYSTEMÓW                                  
+
+6 rows selected. 
+
+SQL> 
+SQL> -- tematy prac dyplomowych wraz z opisami (tematow i zakladow)
+SQL> select temat, tematy.opis as opis_tematu, zaklady.opis as opis_zakladu 
+  2      from tematy
+  3      join osoby 
+  4      on tematy.id_opiekuna = osoby.id_osoby
+  5          join zaklady 
+  6          on osoby.id_zakladu_zatrudniajacego = zaklady.id_zakladu;
+
+TEMAT
+----------------------------------------------------------------------------------------------------
+OPIS_TEMATU
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+OPIS_ZAKLADU                                                                                                                                                                                            
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PLANOWANIE ZADAÑ ROBOTÓW                                                                             
+Algorytmy sztucznej inteligencji w planowaniu zadañ robotów                                                                                                                                              
+Zakres badañ obejmuje procesy projektowe, metody analizy, projektowania i oceny jakoœci oprogramowania oraz metody prowadzenia audytu informatycznego.                                                  
+
+PROCES WYKONANIA PROGRAMU FUNKCYJNEGO                                                                
+Zadanie polega na wizualizacji procesu wykonania programu funkcyjnego.                                                                                                                                   
+Zakres badañ obejmuje procesy projektowe, metody analizy, projektowania i oceny jakoœci oprogramowania oraz metody prowadzenia audytu informatycznego.                                                  
+
+ZWINNE PROJEKTY INFORMATYCZNE                                                                        
+Aplikacja doradzaj¹ca zespo³om realizuj¹cym zwinne projekty informatyczne                                                                                                                                
+Zakres badañ obejmuje procesy projektowe, metody analizy, projektowania i oceny jakoœci oprogramowania oraz metody prowadzenia audytu informatycznego.                                                  
+
+APLIKACJA DO GENERACJI WYBRANYCH KLAS GRAFÓW                                                         
+                                                                                                                                                                                                         
+                                                                                                                                                                                                        
+
+SYSTEMY RYNKOWE                                                                                      
+Zadanie polega na opracowaniu œrodowiska do projektowania systemów rynkowych.                                                                                                                            
+                                                                                                                                                                                                        
+
+ŒCIE¯KI PO£¥CZEÑ W SIECIACH OPTYCZNYCH                                                               
+Algorytmy wyznaczania œcie¿ek po³¹czeñ w sieciach optycznych                                                                                                                                             
+                                                                                                                                                                                                        
+
+PLANOWANIE TRENINGU                                                                                  
+Modelowanie wytrzyma³oœci fizycznej do planowania treningu                                                                                                                                               
+                                                                                                                                                                                                        
+
+SERWOMECHANIZM LABORATORYJNY                                                                         
+Modelowanie, identyfikacja, regulacja oraz wizualizacja                                                                                                                                                  
+                                                                                                                                                                                                        
+
+
+8 rows selected. 
+
+SQL> 
+SQL> --liczba preferencji danego tematu jako najbardziej porzadanego (waga rowna 1)
+SQL> select tematy.temat, count(tematy.temat)
+  2      from tematy
+  3      join preferencje 
+  4      on tematy.nr_tematu = preferencje.nr_wybranego_tematu
+  5      where preferencje.waga = 1
+  6      group by tematy.temat;
+
+TEMAT                                                                                                COUNT(TEMATY.TEMAT)
+---------------------------------------------------------------------------------------------------- -------------------
+PLANOWANIE TRENINGU                                                                                                    1
+APLIKACJA DO GENERACJI WYBRANYCH KLAS GRAFÓW                                                                           2
+PLANOWANIE ZADAÑ ROBOTÓW                                                                                               2
+SYSTEMY RYNKOWE                                                                                                        1
+ZWINNE PROJEKTY INFORMATYCZNE                                                                                          1
+
+SQL> 
+SQL> --liczby preferencji zlozonych przez poszczegolnych studentow
+SQL> select osoby.imie, osoby.nazwisko, osoby.nr_albumu_studenta, liczby_preferencji.l_pref as liczba_zlozonych_preferencji
+  2      from osoby
+  3      join (select count (*) as l_pref, osoby.id_osoby as id_os
+  4          from osoby
+  5          join preferencje
+  6          on osoby.id_osoby = preferencje.id_studenta
+  7          group by osoby.id_osoby) liczby_preferencji 
+  8          on osoby.id_osoby = liczby_preferencji.id_os;
+
+IMIE                                     NAZWISKO                                 NR_ALBUMU_ LICZBA_ZLOZONYCH_PREFERENCJI
+---------------------------------------- ---------------------------------------- ---------- ----------------------------
+MATEUSZ                                  SOSNOWSKI                                253142                                2
+ALEKSANDRA                               CZARNECKA                                293112                                3
+MIKO£AJ                                  KUCHARSKI                                283123                                2
+ALICJA                                   RUTKOWSKA                                283191                                2
+TOMASZ                                   KUJAWA                                   273111                                3
+ADAM                                     PAWLAK                                   273188                                1
+ALEKSANDER                               KOZ£OWSKI                                293187                                2
+
+7 rows selected. 
+
+SQL> 
+SQL> -- wybrane przez poszczegolnych studentow tematy wraz z wagami preferencji
+SQL> select tematy.temat, osoby.imie, osoby.nazwisko, preferencje.waga
+  2      from preferencje
+  3      join osoby
+  4      on preferencje.id_studenta = osoby.id_osoby
+  5          join tematy 
+  6          on preferencje.nr_wybranego_tematu = tematy.nr_tematu;
+
+TEMAT                                                                                                IMIE                                     NAZWISKO                                       WAGA
+---------------------------------------------------------------------------------------------------- ---------------------------------------- ---------------------------------------- ----------
+PLANOWANIE ZADAÑ ROBOTÓW                                                                             ALEKSANDRA                               CZARNECKA                                         1
+PLANOWANIE ZADAÑ ROBOTÓW                                                                             ADAM                                     PAWLAK                                            1
+PLANOWANIE ZADAÑ ROBOTÓW                                                                             TOMASZ                                   KUJAWA                                            3
+PLANOWANIE ZADAÑ ROBOTÓW                                                                             MIKO£AJ                                  KUCHARSKI                                         2
+PROCES WYKONANIA PROGRAMU FUNKCYJNEGO                                                                ALEKSANDRA                               CZARNECKA                                         2
+SYSTEMY RYNKOWE                                                                                      ALICJA                                   RUTKOWSKA                                         2
+SYSTEMY RYNKOWE                                                                                      MIKO£AJ                                  KUCHARSKI                                         1
+ŒCIE¯KI PO£¥CZEÑ W SIECIACH OPTYCZNYCH                                                               ALEKSANDRA                               CZARNECKA                                         3
+PLANOWANIE TRENINGU                                                                                  MATEUSZ                                  SOSNOWSKI                                         1
+SERWOMECHANIZM LABORATORYJNY                                                                         MATEUSZ                                  SOSNOWSKI                                         2
+ZWINNE PROJEKTY INFORMATYCZNE                                                                        ALEKSANDER                               KOZ£OWSKI                                         1
+ZWINNE PROJEKTY INFORMATYCZNE                                                                        TOMASZ                                   KUJAWA                                            2
+APLIKACJA DO GENERACJI WYBRANYCH KLAS GRAFÓW                                                         ALEKSANDER                               KOZ£OWSKI                                         2
+APLIKACJA DO GENERACJI WYBRANYCH KLAS GRAFÓW                                                         ALICJA                                   RUTKOWSKA                                         1
+APLIKACJA DO GENERACJI WYBRANYCH KLAS GRAFÓW                                                         TOMASZ                                   KUJAWA                                            1
+
+15 rows selected. 
+
+SQL> 
+SQL> spool off
