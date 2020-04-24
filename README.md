@@ -4,16 +4,16 @@ Wydział uczelni tworzy system wspomagający przydział tematów prac dyplomowyc
 
 Opis plików:
 
-  struktury.sql - tworzenie struktur danych
+  * struktury.sql - tworzenie struktur danych
   
-  dane.sql - wstawianie przykładowych danych (po wykonaniu skryptu struktury.sql)
+  * dane.sql - wstawianie przykładowych danych (po wykonaniu skryptu struktury.sql)
   
-  synonimy.sql, wyzwalacze_i_sekwencje.sql - tworzenie synonimów, wyzwalaczy i sekwencji
+  * synonimy.sql, wyzwalacze_i_sekwencje.sql - tworzenie synonimów, wyzwalaczy i sekwencji
   
-  zapytania.sql - przykładowe zapytania
+  * zapytania.sql - przykładowe zapytania
   
-  zapytania.lis - wyniki przykładowych zapytań ze skryptu zapytania.sql
+  * zapytania.lis - wyniki przykładowych zapytań ze skryptu zapytania.sql
   
-  polecenia_DML.sql - polecenia DML testujące ograniczenia
+  * polecenia_DML.sql - polecenia DML testujące ograniczenia
   
-  polecenia_DML.lis - wyniki poleceń DML ze skryptu polecenia_DML.sql
+  * polecenia_DML.lis - wyniki poleceń DML ze skryptu polecenia_DML.sql
